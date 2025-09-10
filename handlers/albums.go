@@ -84,6 +84,7 @@ func UpdateAlbum(c *gin.Context) {
 			c.IndentedJSON(http.StatusOK, gin.H{
 				"data":    updatedAlbum,
 				"message": "Album updated successfully",
+				"status":  http.StatusOK,
 			})
 			return
 		}
