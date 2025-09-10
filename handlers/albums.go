@@ -23,18 +23,21 @@ func GetAlbums(c *gin.Context) {
 // then returns that album as a response.
 func GetAlbumByID(c *gin.Context) {
 	id := c.Param("id")
-	// Loop over the list of albums, looking for
-	// an album whose ID value matches the parameter.
-	for i, a := range database.Albums {
-		if a.ID == id {
-			c.IndentedJSON(http.StatusOK, gin.H{
-				"data":    database.Albums[i],
-				"message": "Album found",
-			})
-			return
-		}
+	album, _ := database.GetAlbumByID(id)
+
+	if album == nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"message": "Album not found",
+		})
+		return
 	}
-	c.IndentedJSON(http.StatusNotFound, gin.H{
+
+	c.JSON(http.StatusOK, gin.H{
+		"data":    album,
+		"message": "Album found",
+	})
+
+	c.JSON(http.StatusNotFound, gin.H{
 		"message": "album not found",
 	})
 }
