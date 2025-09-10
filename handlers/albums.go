@@ -92,3 +92,31 @@ func UpdateAlbum(c *gin.Context) {
 		"message": "album not found",
 	})
 }
+
+// deleteAlbum removes an album identified by ID from the collection.
+func DeleteAlbum(c *gin.Context) {
+	id := c.Param("id")
+
+	// Loop over the list of albums, looking for
+	// an album whose ID value matches the parameter.
+	for i, a := range database.Albums {
+		if a.ID == id {
+			// Remove the album from the slice
+			database.Albums = append(database.Albums[:i], database.Albums[i+1:]...)
+			c.IndentedJSON(http.StatusOK, gin.H{
+				"message": "Album deleted successfully",
+			})
+			return
+		}
+	}
+	c.IndentedJSON(http.StatusNotFound, gin.H{
+		"message": "album not found",
+	})
+}
+
+// GetAlbumsCount returns the total count of albums
+func GetAlbumsCount(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"count": len(database.Albums),
+	})
+}

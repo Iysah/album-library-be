@@ -15,6 +15,8 @@ func SetupRoutes() *gin.Engine {
 		albumRoutes.GET("", handlers.GetAlbums)
 		albumRoutes.POST("", handlers.CreateAlbum)
 		albumRoutes.GET("/:id", handlers.GetAlbumByID)
+		albumRoutes.PUT("/:id", handlers.UpdateAlbum)
+		albumRoutes.DELETE("/:id", handlers.DeleteAlbum)
 	}
 
 	router.GET("/health", func(c *gin.Context) {
